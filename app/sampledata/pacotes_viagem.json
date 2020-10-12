@@ -1,0 +1,22 @@
+{
+  "pacotes": [
+    {
+      "imagem": "@drawable/bh",
+      "local": "Belo Horizonte",
+      "dias": "3 dias",
+      "preco": "400,00"
+    },
+    {
+      "imagem": "@drawable/recife",
+      "local": "Recife",
+      "dias": "3 dias",
+      "preco": "550,00"
+    },
+    {
+      "imagem": "@drawable/rio_janeiro",
+      "local": "Rio Janeiro",
+      "dias": "4 dias",
+      "preco": "700,30"
+    }
+  ]
+}
