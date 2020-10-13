@@ -1,6 +1,9 @@
 package com.example.pacotesdeviagens.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +16,7 @@ import com.example.pacotesdeviagens.util.DiasUtil;
 import com.example.pacotesdeviagens.util.MoedaUtil;
 import com.example.pacotesdeviagens.util.ResourceUtil;
 
-import java.math.BigDecimal;
+import static com.example.pacotesdeviagens.ui.activity.PacoteAcrivityConstantes.CHAVE_PACOTE;
 
 public class ResumoPacoteActivity extends AppCompatActivity {
 
@@ -24,14 +27,36 @@ public class ResumoPacoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumo_pacote);
         setTitle(TITULO_APP_BAR);
+        carregaPacoteRecebido();
+    }
 
-        Pacote pacoteSaoPaulo = new Pacote("São Paulo", "sao_paulo", 2, new BigDecimal("536.74"));
+    private void carregaPacoteRecebido() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(CHAVE_PACOTE)) {
+            Pacote pacote = (Pacote) intent.getParcelableExtra(CHAVE_PACOTE);
+            mostraLocal(pacote);
+            mostraImagemDaCidade(pacote);
+            nostraDias(pacote);
+            mostraPreco(pacote);
+            mostraData(pacote);
+            configuraBotaoPagamento(pacote);
+        }
+    }
 
-        mostraLocal(pacoteSaoPaulo);
-        mostraImagemDaCidade(pacoteSaoPaulo);
-        nostraDias(pacoteSaoPaulo);
-        mostraPreco(pacoteSaoPaulo);
-        mostraData(pacoteSaoPaulo);
+    private void configuraBotaoPagamento(final Pacote pacote) {
+        Button botaoRealizarPagamento = findViewById(R.id.resumo_pacote_botao_pagamento);
+        botaoRealizarPagamento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vaiParaPagamento(pacote);
+            }
+        });
+    }
+
+    private void vaiParaPagamento(Pacote pacote) {
+        Intent intent = new Intent(ResumoPacoteActivity.this, PagamentoActivity.class);
+        intent.putExtra(CHAVE_PACOTE, pacote);
+        startActivity(intent);
     }
 
     private void mostraPreco(Pacote pacote) {

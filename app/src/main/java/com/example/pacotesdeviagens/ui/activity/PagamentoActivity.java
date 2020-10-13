@@ -1,15 +1,18 @@
 package com.example.pacotesdeviagens.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pacotesdeviagens.R;
 import com.example.pacotesdeviagens.model.Pacote;
 import com.example.pacotesdeviagens.util.MoedaUtil;
 
-import java.math.BigDecimal;
+import static com.example.pacotesdeviagens.ui.activity.PacoteAcrivityConstantes.CHAVE_PACOTE;
 
 public class PagamentoActivity extends AppCompatActivity {
 
@@ -21,9 +24,28 @@ public class PagamentoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pagamento);
         setTitle(TITULO_APP_BAR);
 
-        Pacote pacoteSaoPaulo = new Pacote("São Paulo", "sao_paulo", 2, new BigDecimal("536.74"));
+        Intent intent = getIntent();
+        if (intent.hasExtra(CHAVE_PACOTE)){
+            final Pacote pacote = (Pacote) intent.getParcelableExtra(CHAVE_PACOTE);
+            mostraPreco(pacote);
+            configuraBotaoFinalizaCompra(pacote);
+        }
+    }
 
-        mostraPreco(pacoteSaoPaulo);
+    private void configuraBotaoFinalizaCompra(final Pacote pacote) {
+        Button botaoFinalizarCompra = findViewById(R.id.pagamento_finalizar_compra);
+        botaoFinalizarCompra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vaiParaResumoCompra(pacote);
+            }
+        });
+    }
+
+    private void vaiParaResumoCompra(Pacote pacote) {
+        Intent intent = new Intent(PagamentoActivity.this, ResumoCompraActivity.class);
+        intent.putExtra(CHAVE_PACOTE, pacote);
+        startActivity(intent);
     }
 
     private void mostraPreco(Pacote pacote) {

@@ -1,10 +1,11 @@
 package com.example.pacotesdeviagens.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pacotesdeviagens.R;
 import com.example.pacotesdeviagens.model.Pacote;
@@ -12,7 +13,7 @@ import com.example.pacotesdeviagens.util.DataUtil;
 import com.example.pacotesdeviagens.util.MoedaUtil;
 import com.example.pacotesdeviagens.util.ResourceUtil;
 
-import java.math.BigDecimal;
+import static com.example.pacotesdeviagens.ui.activity.PacoteAcrivityConstantes.CHAVE_PACOTE;
 
 public class ResumoCompraActivity extends AppCompatActivity {
 
@@ -23,13 +24,22 @@ public class ResumoCompraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumo_compra);
         setTitle(TITULO_APP_BAR);
+        carregarPacoteRecebido();
+    }
 
-        Pacote pacoteSaoPaulo = new Pacote("São Paulo", "sao_paulo", 6, new BigDecimal("750.00"));
+    private void carregarPacoteRecebido() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(CHAVE_PACOTE)) {
+            Pacote pacote = (Pacote) intent.getParcelableExtra(CHAVE_PACOTE);
+            inicializaCampos(pacote);
+        }
+    }
 
-        mostraImagemDaCidade(pacoteSaoPaulo);
-        mostraLocal(pacoteSaoPaulo);
-        mostraData(pacoteSaoPaulo);
-        mostraPreco(pacoteSaoPaulo);
+    private void inicializaCampos(Pacote pacote) {
+        mostraImagemDaCidade(pacote);
+        mostraLocal(pacote);
+        mostraData(pacote);
+        mostraPreco(pacote);
     }
 
     private void mostraImagemDaCidade(Pacote pacote) {
