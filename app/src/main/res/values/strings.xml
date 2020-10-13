@@ -15,4 +15,7 @@
     <string name="nome_cartao">Nome do cartão</string>
     <string name="cvc">CVC</string>
     <string name="finalizar_compra">FINALIZAR COMPRA</string>
+    <string name="parabens">Parabéns</string>
+    <string name="compra_realizada_mensagem_sucesso">Compra realizada com sucesso :)</string>
+    <string name="mensagem_resumo_da_compra">Confira o resumo da compra</string>
 </resources>
