@@ -44,38 +44,59 @@ public class ListaPacotesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_pacote, parent, false);
+
+        View viewCriada;
+        ViewHolder holder;
+
+        if(convertView == null){
+            viewCriada = LayoutInflater.from(context).inflate(R.layout.item_pacote, parent, false);
+            holder = new ViewHolder(viewCriada);
+            viewCriada.setTag(holder);
+        }else {
+            viewCriada = convertView;
+            holder = (ViewHolder) convertView.getTag();
+        }
         Pacote pacote = pacotes.get(position);
 
-        mostraLocal(viewCriada, pacote);
-        mostraDia(viewCriada, pacote);
-        mostraPreco(viewCriada, pacote);
-        mostraImagem(viewCriada, pacote);
+        mostraLocal(holder, pacote);
+        mostraDia(holder, pacote);
+        mostraPreco(holder, pacote);
+        mostraImagem(holder, pacote);
 
         return viewCriada;
     }
 
-    private void mostraImagem(View viewCriada, Pacote pacote) {
-        ImageView itemPacoteImagem = viewCriada.findViewById(R.id.item_pacote_imagem);
+    private void mostraImagem(ViewHolder holder, Pacote pacote) {
         Drawable imagemDaCidade = ResourceUtil.obterDrawable(context, pacote.getImagem());
-        itemPacoteImagem.setImageDrawable(imagemDaCidade);
+        holder.itemPacoteImagem.setImageDrawable(imagemDaCidade);
     }
 
-    private void mostraPreco(View viewCriada, Pacote pacote) {
-        TextView itemPacotePreco = viewCriada.findViewById(R.id.item_pacote_preco);
+    private void mostraPreco(ViewHolder holder, Pacote pacote) {
         String preco = MoedaUtil.formataValorParaPadraoDaMoedaBrasileira(pacote.getPreco());
-        itemPacotePreco.setText(preco);
+        holder.itemPacotePreco.setText(preco);
     }
 
-    private void mostraDia(View viewCriada, Pacote pacote) {
-        TextView itemPacoteDias = viewCriada.findViewById(R.id.item_pacote_dias);
+    private void mostraDia(ViewHolder holder, Pacote pacote) {
         String dias = DiasUtil.formataEmTexto(pacote.getDias());
-        itemPacoteDias.setText(dias);
+        holder.itemPacoteDias.setText(dias);
     }
 
-    private void mostraLocal(View viewCriada, Pacote pacote) {
-        TextView itemPacoteLocal = viewCriada.findViewById(R.id.item_pacote_local);
-        itemPacoteLocal.setText(pacote.getLocal());
+    private void mostraLocal(ViewHolder holder, Pacote pacote) {
+        holder.itemPacoteLocal.setText(pacote.getLocal());
     }
 
+    class ViewHolder {
+
+        final ImageView itemPacoteImagem;
+        final TextView itemPacotePreco;
+        final TextView itemPacoteDias;
+        final TextView itemPacoteLocal;
+
+        public ViewHolder(View view) {
+            itemPacoteImagem =  (ImageView) view.findViewById(R.id.item_pacote_imagem);
+            itemPacotePreco = (TextView) view.findViewById(R.id.item_pacote_preco);
+            itemPacoteDias = (TextView) view.findViewById(R.id.item_pacote_dias);
+            itemPacoteLocal = (TextView) view.findViewById(R.id.item_pacote_local);
+        }
+    }
 }
